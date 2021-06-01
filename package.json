@@ -1,0 +1,16 @@
+{
+  "name": "cypress-installer",
+  "version": "1.0.9",
+  "description": "A package that installs cypress into your Angular and react project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "prompt": "^1.1.0",
+    "readline-sync": "^1.4.10"
+  }
+}
