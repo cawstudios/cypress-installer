@@ -4,8 +4,9 @@ const {
   promptInstallConcurrently,
   promptInstallCypressCoverage,
   promptUninstallKarma,
+  promptCoverageReact,
+  promptComponentTestReact,
 } = require("./prompt");
-
 const {
   addCypressScripts,
   configCypressDirectory,
@@ -20,24 +21,26 @@ const executeCommand = (command) => {
 
 try {
   const reply = readlineSync.question(
-    "Want to install cypress into your project(Y/n):"
+    "would you like to install cypress into your project(Y/n):"
   );
 
   if (reply === "y") {
     executeCommand(config["commands"]["installCypress"]);
     const index = readlineSync.keyInSelect(FRAMEWORKS, "Which framework?");
     if (index === 0) {
-      const replyKarma = readlineSync.question("Want to uninstall karma(Y/n):");
+      const replyKarma = readlineSync.question(
+        "Do you want to uninstall karma(Y/n):"
+      );
       if (replyKarma.toLocaleLowerCase() === "y") {
         promptUninstallKarma();
         promptInstallConcurrently();
-        promptInstallCypressCoverage("Angular");
+        promptInstallCypressCoverage();
       } else process.exit(0);
     } else if (index === 1) {
-      console.log("\nReact\n");
       configCypressDirectory("React");
       addCypressScripts();
-      promptInstallCypressCoverage("React");
+      promptCoverageReact();
+      promptComponentTestReact();
     } else process.exit(0);
   } else process.exit(0);
 } catch (error) {

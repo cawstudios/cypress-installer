@@ -40,5 +40,19 @@
     "cypress/screenshots": "\\cypress\\screenshots",
     "cypress/videos": "\\cypress\\videos",
     "cypress/tsconfig": "cypress\\tsconfig.json"
+  },
+  "reactScripts": {
+    "start": "npm-run-all start-dev start-mockapi",
+    "start-dev": "react-scripts -r @cypress/instrument-cra start",
+    "start-mockapi": "json-server ...",
+    "cypress": "cypress open",
+    "ct:open": "cypress open-ct",
+    "dev": "start-test 3000 cypress",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "reactEslintConfig": {
+    "extends": ["react-app", "react-app/jest", "plugin:cypress/recommended"]
   }
 }

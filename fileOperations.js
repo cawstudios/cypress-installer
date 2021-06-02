@@ -53,7 +53,7 @@ const readFile = (path) => {
 };
 
 const writeFile = (path, object) => {
-  writeFileSync(path, JSON.stringify(object));
+  writeFileSync(path, JSON.stringify(object, null, 2));
 };
 
 exports.createDirectory = createDirectory;

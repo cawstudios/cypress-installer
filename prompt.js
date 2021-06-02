@@ -12,13 +12,59 @@ const {
   configCypressDirectory,
 } = require("./cypressConfig.js");
 const configJson = require("./config.json");
-const PATH = getMainProjectPath();
 
+const PATH = getMainProjectPath();
 const ANGULARJSON_PATH = `${PATH}\\angular.json`;
 const PACKGEJSON_PATH = `${PATH}\\package.json`;
+const CYPRESSJSON_PATH = `${PATH}\\cypress.json`;
 
 const executeCommand = (command) => {
   console.log(execSync(command).toString());
+};
+
+const promptCoverageReact = () => {
+  const reply = readlineSync.question(
+    "Would you like to install cypress coverage into your project(y/N):"
+  );
+  if (reply === "y") {
+    const packageJson = readFile(PACKGEJSON_PATH);
+    executeCommand("npm i @cypress/instrument-cra -D");
+    executeCommand("npm i npm-run-all -D");
+    executeCommand("npm i @cypress/code-coverage nyc istanbul-lib-coverage -D");
+    packageJson["scripts"] = configJson["reactScripts"];
+    packageJson["eslintConfig"] = configJson["reactEslintConfig"];
+
+    copyDirectory(
+      `${PATH}${configJson["filePath"]["cypress-coverage"]}support\\index.js`,
+      `${PATH}cypress\\support\\index.js`
+    );
+    copyDirectory(
+      `${PATH}${configJson["filePath"]["cypress-coverage"]}react\\plugins\\index.js`,
+      `${PATH}cypress\\plugins\\index.js`
+    );
+    writeFile(PACKGEJSON_PATH, packageJson);
+  }
+};
+
+const promptComponentTestReact = () => {
+  const reply = readlineSync.question(
+    "Would you like to install component testing for your react project(y/N):"
+  );
+  if (reply === "y") {
+    executeCommand("npm i @cypress/react @cypress/webpack-dev-server -D");
+    const cypressJson = readFile(CYPRESSJSON_PATH);
+    cypressJson["componentFolder"] = "src";
+    cypressJson["testFiles"] = "**/*.test.{js,ts,jsx,tsx}";
+    writeFile(CYPRESSJSON_PATH, cypressJson);
+    copyDirectory(
+      `${PATH}${configJson["filePath"]["cypress-coverage"]}react\\componentIndex.js`,
+      `${PATH}cypress\\plugins\\index.js`
+    );
+    copyDirectory(
+      `${PATH}${configJson["filePath"]["cypress-coverage"]}react\\App.test.js`,
+      `${PATH}src\\App.test.js`
+    );
+  }
 };
 
 const promptUninstallKarma = () => {
@@ -40,7 +86,7 @@ const promptUninstallKarma = () => {
 
 const promptInstallConcurrently = () => {
   const concurrentlyReply = readlineSync.question(
-    "Want to install concurrently into your project(Y/n):"
+    "would you like to install concurrently into your project(y/N):"
   );
 
   if (concurrentlyReply.toLocaleLowerCase() === "y") {
@@ -53,26 +99,24 @@ const promptInstallConcurrently = () => {
   }
 };
 
-const promptInstallCypressCoverage = (framework) => {
+const promptInstallCypressCoverage = () => {
   const reply = readlineSync.question(
-    "Want to install cypress coverage into your project(Y/n):"
+    "Want to install cypress coverage into your project(y/N):"
   );
   if (reply === "y") {
     executeCommand(configJson["commands"]["installNgx-build-plus"]);
     executeCommand(configJson["commands"]["installIstanbul"]);
     executeCommand(configJson["commands"]["installCoverage"]);
 
-    if (framework === "Angular") {
-      const packageJson = readFile(PACKGEJSON_PATH);
-      const angularJson = readFile(ANGULARJSON_PATH);
-      angularJson["projects"][packageJson["name"]]["architect"]["serve"][
-        "builder"
-      ] = configJson["serve"]["builder"];
-      angularJson["projects"][packageJson["name"]]["architect"]["serve"][
-        "options"
-      ] = configJson["serve"]["options"];
-      writeFile(ANGULARJSON_PATH, angularJson);
-    }
+    const packageJson = readFile(PACKGEJSON_PATH);
+    const angularJson = readFile(ANGULARJSON_PATH);
+    angularJson["projects"][packageJson["name"]]["architect"]["serve"][
+      "builder"
+    ] = configJson["serve"]["builder"];
+    angularJson["projects"][packageJson["name"]]["architect"]["serve"][
+      "options"
+    ] = configJson["serve"]["options"];
+    writeFile(ANGULARJSON_PATH, angularJson);
 
     copyDirectory(
       `${PATH}${configJson["filePath"]["cypress-installer"]}coverage.webpack.js`,
@@ -96,5 +140,7 @@ const promptInstallCypressCoverage = (framework) => {
 exports.promptInstallConcurrently = promptInstallConcurrently;
 exports.promptInstallCypressCoverage = promptInstallCypressCoverage;
 exports.promptUninstallKarma = promptUninstallKarma;
+exports.promptCoverageReact = promptCoverageReact;
+exports.promptComponentTestReact = promptComponentTestReact;
 exports.ANGULARJSON_PATH = ANGULARJSON_PATH;
 exports.PACKGEJSON_PATH = PACKGEJSON_PATH;
