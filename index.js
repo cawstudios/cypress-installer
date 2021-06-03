@@ -8,6 +8,7 @@ const {
   promptComponentTestReact,
   promptUninstallProtractor,
 } = require("./prompt");
+
 const {
   addCypressScripts,
   configCypressDirectory,
@@ -17,7 +18,12 @@ const config = require("./config.json");
 const FRAMEWORKS = ["Angular", "React"];
 
 const executeCommand = (command) => {
-  console.log(execSync(command).toString());
+  try {
+    execSync(command, { stdio: "inherit" });
+  } catch (error) {
+    console.log(error.stderr);
+    process.exit(0);
+  }
 };
 
 try {

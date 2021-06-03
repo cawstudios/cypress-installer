@@ -11,6 +11,7 @@ const {
   addCypressScripts,
   configCypressDirectory,
 } = require("./cypressConfig.js");
+const fs = require("fs");
 const configJson = require("./config.json");
 
 const PATH = getMainProjectPath();
@@ -19,7 +20,36 @@ const PACKGEJSON_PATH = `${PATH}\\package.json`;
 const CYPRESSJSON_PATH = `${PATH}\\cypress.json`;
 
 const executeCommand = (command) => {
-  console.log(execSync(command).toString());
+  try {
+    execSync(command, { stdio: "inherit" });
+  } catch (error) {
+    console.log(error.stderr);
+    process.exit(0);
+  }
+};
+
+const promptIntallEslint = () => {
+  if (fs.existsSync(`${PATH}\\.eslintrc.json`)) {
+  } else {
+    const reply = readlineSync.question(
+      "Would you like to install eslint and prettier(y/N):"
+    );
+    if (reply === "y") {
+      executeCommand("npm i eslint -D");
+      executeCommand(
+        "npm i @typescript-eslint/eslint-plugin eslint-plugin-prettier eslint-plugin-angular -D"
+      );
+      executeCommand(
+        "npm i prettier prettier-eslint eslint-config-prettier -D"
+      );
+      writeFile(`${PATH}\\.eslintric.json`, configJson["eslintConfigAngular"]);
+    }
+  }
+};
+
+const addEslintForCypress = () => {
+  const eslintConfig = readFile(`${PATH}\\.eslintric.json`);
+  eslintConfig['']
 };
 
 const promptCoverageReact = () => {

@@ -21,12 +21,8 @@ const configCypressDirectory = (framework) => {
   createDirectory(`${PATH}${configJson["filePath"]["cypress/videos"]}`);
 
   if (framework === "React") cypressConfig["baseUrl"] = "http://localhost:3000";
-  if (framework === "Angular") {
-    writeFile(
-      `${PATH}${configJson["filePath"]["cypress-installer"]}tsconfig.json`,
-      configJson["tsconfig"]
-    );
-  }
+  if (framework === "Angular")
+    writeFile(`${PATH}\\cypress\\tsconfig.json`, configJson["tsconfig"]);
 
   writeFile(`${PATH}\\cypress.json`, cypressConfig);
 };
