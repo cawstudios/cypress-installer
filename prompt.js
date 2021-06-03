@@ -52,10 +52,12 @@ const promptComponentTestReact = () => {
   );
   if (reply === "y") {
     executeCommand("npm i @cypress/react @cypress/webpack-dev-server -D");
+
     const cypressJson = readFile(CYPRESSJSON_PATH);
     cypressJson["componentFolder"] = "src";
     cypressJson["testFiles"] = "**/*.test.{js,ts,jsx,tsx}";
     writeFile(CYPRESSJSON_PATH, cypressJson);
+
     copyDirectory(
       `${PATH}${configJson["filePath"]["cypress-coverage"]}react\\componentIndex.js`,
       `${PATH}cypress\\plugins\\index.js`
@@ -99,17 +101,28 @@ const promptInstallConcurrently = () => {
   }
 };
 
+const promptUninstallProtractor = () => {
+  const reply = readlineSync.question(
+    "Do you want to uninstall protractor(Y/n):"
+  );
+  if (reply.toLowerCase() === "y") {
+    executeCommand("npm uninstall protractor");
+    deleteFile(`${PATH}protractor.conf.js`);
+  }
+};
+
 const promptInstallCypressCoverage = () => {
   const reply = readlineSync.question(
     "Want to install cypress coverage into your project(y/N):"
   );
   if (reply === "y") {
+    const packageJson = readFile(PACKGEJSON_PATH);
+    const angularJson = readFile(ANGULARJSON_PATH);
+
     executeCommand(configJson["commands"]["installNgx-build-plus"]);
     executeCommand(configJson["commands"]["installIstanbul"]);
     executeCommand(configJson["commands"]["installCoverage"]);
 
-    const packageJson = readFile(PACKGEJSON_PATH);
-    const angularJson = readFile(ANGULARJSON_PATH);
     angularJson["projects"][packageJson["name"]]["architect"]["serve"][
       "builder"
     ] = configJson["serve"]["builder"];
@@ -119,11 +132,11 @@ const promptInstallCypressCoverage = () => {
     writeFile(ANGULARJSON_PATH, angularJson);
 
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-installer"]}coverage.webpack.js`,
+      `${PATH}${configJson["filePath"]["cypress-installer"]}src\\coverage.webpack.js`,
       `${PATH}cypress\\coverage.webpack.js`
     );
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-installer"]}cy-ts-preprocessor.js`,
+      `${PATH}${configJson["filePath"]["cypress-installer"]}src\\cy-ts-preprocessor.js`,
       `${PATH}cypress\\plugins\\cy-ts-preprocessor.js`
     );
     copyDirectory(
@@ -142,5 +155,6 @@ exports.promptInstallCypressCoverage = promptInstallCypressCoverage;
 exports.promptUninstallKarma = promptUninstallKarma;
 exports.promptCoverageReact = promptCoverageReact;
 exports.promptComponentTestReact = promptComponentTestReact;
+exports.promptUninstallProtractor = promptUninstallProtractor;
 exports.ANGULARJSON_PATH = ANGULARJSON_PATH;
 exports.PACKGEJSON_PATH = PACKGEJSON_PATH;

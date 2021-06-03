@@ -22,9 +22,9 @@ const configCypressDirectory = (framework) => {
 
   if (framework === "React") cypressConfig["baseUrl"] = "http://localhost:3000";
   if (framework === "Angular") {
-    copyDirectory(
+    writeFile(
       `${PATH}${configJson["filePath"]["cypress-installer"]}tsconfig.json`,
-      `${PATH}${configJson["filePath"]["cypress/tsconfig"]}`
+      configJson["tsconfig"]
     );
   }
 
@@ -35,6 +35,8 @@ const addCypressScripts = () => {
   const packageJson = readFile(PACKGEJSON_PATH);
   packageJson["scripts"]["cy:open"] = "cypress open";
   packageJson["scripts"]["cy:run"] = "cypress run";
+  packageJson["scripts"]["ct:open"] = "cypress open-ct";
+  packageJson["scripts"]["ct:run"] = "cypress run-ct";
   writeFile(PACKGEJSON_PATH, packageJson);
 };
 

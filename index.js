@@ -6,6 +6,7 @@ const {
   promptUninstallKarma,
   promptCoverageReact,
   promptComponentTestReact,
+  promptUninstallProtractor,
 } = require("./prompt");
 const {
   addCypressScripts,
@@ -33,6 +34,7 @@ try {
       );
       if (replyKarma.toLocaleLowerCase() === "y") {
         promptUninstallKarma();
+        promptUninstallProtractor();
         promptInstallConcurrently();
         promptInstallCypressCoverage();
       } else process.exit(0);
