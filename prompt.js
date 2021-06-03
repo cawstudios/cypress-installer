@@ -27,10 +27,11 @@ const promptCoverageReact = () => {
     "Would you like to install cypress coverage into your project(y/N):"
   );
   if (reply === "y") {
-    const packageJson = readFile(PACKGEJSON_PATH);
     executeCommand("npm i @cypress/instrument-cra -D");
+    executeCommand("npm i eslint-plugin-cypress  -D");
     executeCommand("npm i npm-run-all -D");
     executeCommand("npm i @cypress/code-coverage nyc istanbul-lib-coverage -D");
+    const packageJson = readFile(PACKGEJSON_PATH);
     packageJson["scripts"] = configJson["reactScripts"];
     packageJson["eslintConfig"] = configJson["reactEslintConfig"];
 
@@ -55,7 +56,7 @@ const promptComponentTestReact = () => {
 
     const cypressJson = readFile(CYPRESSJSON_PATH);
     cypressJson["componentFolder"] = "src";
-    cypressJson["testFiles"] = "**/*.test.{js,ts,jsx,tsx}";
+    cypressJson["testFiles"] = "**/*.spec.{js,ts,jsx,tsx}";
     writeFile(CYPRESSJSON_PATH, cypressJson);
 
     copyDirectory(
@@ -63,8 +64,8 @@ const promptComponentTestReact = () => {
       `${PATH}cypress\\plugins\\index.js`
     );
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-coverage"]}react\\App.test.js`,
-      `${PATH}src\\App.test.js`
+      `${PATH}${configJson["filePath"]["cypress-coverage"]}react\\App.spec.js`,
+      `${PATH}src\\App.spec.js`
     );
   }
 };
