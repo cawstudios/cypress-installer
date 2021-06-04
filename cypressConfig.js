@@ -5,26 +5,32 @@ const {
   writeFile,
   getMainProjectPath,
 } = require("./fileOperations");
-
+const path = require("path");
 const PATH = getMainProjectPath();
-const PACKGEJSON_PATH = `${PATH}\\package.json`;
+const PACKGEJSON_PATH = path.join(PATH + "/package.json");
 const configJson = require("./config.json");
 
 const configCypressDirectory = (framework) => {
   const cypressConfig = configJson["cypressConfig"];
   copyDirectory(
-    `${PATH}${configJson["filePath"]["cypress-installer"]}cypress`,
-    `${PATH}\\cypress`
+    path.join(PATH, configJson["filePath"]["cypress-installer"], "cypress"),
+    path.join(PATH, "/cypress")
   );
-  createDirectory(`${PATH}${configJson["filePath"]["cypress/test"]}`);
-  createDirectory(`${PATH}${configJson["filePath"]["cypress/screenshots"]}`);
-  createDirectory(`${PATH}${configJson["filePath"]["cypress/videos"]}`);
+
+  createDirectory(path.join(PATH, configJson["filePath"]["cypress/test"]));
+  createDirectory(
+    path.join(PATH, configJson["filePath"]["cypress/screenshots"])
+  );
+  createDirectory(path.join(PATH, configJson["filePath"]["cypress/videos"]));
 
   if (framework === "React") cypressConfig["baseUrl"] = "http://localhost:3000";
   if (framework === "Angular")
-    writeFile(`${PATH}\\cypress\\tsconfig.json`, configJson["tsconfig"]);
+    writeFile(
+      path.join(PATH, "/cypress/tsconfig.json"),
+      configJson["tsconfig"]
+    );
 
-  writeFile(`${PATH}\\cypress.json`, cypressConfig);
+  writeFile(path.join(PATH, "/cypress.json"), cypressConfig);
 };
 
 const addCypressScripts = () => {

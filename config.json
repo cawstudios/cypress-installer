@@ -33,13 +33,13 @@
   },
   "filePath": {
     "karmaConf": "karma.conf.js",
-    "test.ts": "src\\test.ts",
-    "cypress-coverage": "node_modules\\cypress-installer\\cypress-coverage\\",
-    "cypress-installer": "node_modules\\cypress-installer\\",
-    "cypress/test": "\\cypress\\tests\\e2e",
-    "cypress/screenshots": "\\cypress\\screenshots",
-    "cypress/videos": "\\cypress\\videos",
-    "cypress/tsconfig": "cypress\\tsconfig.json"
+    "test.ts": "src/test.ts",
+    "cypress-coverage": "node_modules/cypress-installer/cypress-coverage/",
+    "cypress-installer": "node_modules/cypress-installer/",
+    "cypress/test": "/cypress/tests/e2e",
+    "cypress/screenshots": "/cypress/screenshots",
+    "cypress/videos": "/cypress/videos",
+    "cypress/tsconfig": "cypress/tsconfig.json"
   },
   "reactScripts": {
     "start": "npm-run-all start-dev start-mockapi",
@@ -70,31 +70,55 @@
   "eslintConfigAngular": {
     "parser": "@typescript-eslint/parser",
     "extends": [
-      "plugin:angular/johnpapa",
       "plugin:@typescript-eslint/recommended",
       "prettier/@typescript-eslint",
       "plugin:prettier/recommended",
-      "prettier/@typescript-eslint"
+      "plugin:cypress/recommended"
     ],
     "parserOptions": {
       "ecmaVersion": 2020,
       "sourceType": "module"
     },
-    "settings": {
-      "angular": {
-        "version": "detect"
-      }
-    },
-    "root": true,
-    "env": {
-      "node": true,
-      "jest": true
-    },
     "rules": {
-      "@typescript-eslint/interface-name-prefix": "off",
-      "@typescript-eslint/explicit-function-return-type": "off",
-      "@typescript-eslint/no-explicit-any": "off"
+      "cypress/no-assigning-return-values": "error",
+      "cypress/no-unnecessary-waiting": "error",
+      "cypress/assertion-before-screenshot": "warn",
+      "cypress/no-force": "warn",
+      "cypress/no-async-tests": "error"
     },
-    "ignorePatterns": ["/*.*"]
+    "plugins": ["cypress"],
+    "env": {
+      "cypress/globals": true
+    }
+  },
+  "eslintConfigReact": {
+    "env": {
+      "browser": true,
+      "es2021": true,
+      "jest": true,
+      "cypress/globals": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:react/recommended",
+      "plugin:prettier/recommended",
+      "plugin:cypress/recommended"
+    ],
+    "parserOptions": {
+      "ecmaFeatures": {
+        "jsx": true
+      },
+      "ecmaVersion": 12,
+      "sourceType": "module"
+    },
+    "plugins": ["react"],
+    "rules": {
+      "react/react-in-jsx-scope": "off",
+      "cypress/no-assigning-return-values": "error",
+      "cypress/no-unnecessary-waiting": "error",
+      "cypress/assertion-before-screenshot": "warn",
+      "cypress/no-force": "warn",
+      "cypress/no-async-tests": "error"
+    }
   }
 }

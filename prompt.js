@@ -12,12 +12,13 @@ const {
   configCypressDirectory,
 } = require("./cypressConfig.js");
 const fs = require("fs");
+const path = require("path");
 const configJson = require("./config.json");
 
 const PATH = getMainProjectPath();
-const ANGULARJSON_PATH = `${PATH}\\angular.json`;
-const PACKGEJSON_PATH = `${PATH}\\package.json`;
-const CYPRESSJSON_PATH = `${PATH}\\cypress.json`;
+const ANGULARJSON_PATH = path.join(PATH + "/angular.json");
+const PACKGEJSON_PATH = path.join(PATH + "/package.json");
+const CYPRESSJSON_PATH = path.join(PATH + "/cypress.json");
 
 const executeCommand = (command) => {
   try {
@@ -28,13 +29,12 @@ const executeCommand = (command) => {
   }
 };
 
-const promptIntallEslint = () => {
-  if (fs.existsSync(`${PATH}\\.eslintrc.json`)) {
-  } else {
-    const reply = readlineSync.question(
-      "Would you like to install eslint and prettier(y/N):"
-    );
-    if (reply === "y") {
+const promptInstallEslint = (index) => {
+  const reply = readlineSync.question(
+    "Would you like to install eslint and prettier for cypress(y/N):"
+  );
+  if (reply === "y") {
+    if (index === 0) {
       executeCommand("npm i eslint -D");
       executeCommand(
         "npm i @typescript-eslint/eslint-plugin eslint-plugin-prettier eslint-plugin-angular -D"
@@ -42,14 +42,35 @@ const promptIntallEslint = () => {
       executeCommand(
         "npm i prettier prettier-eslint eslint-config-prettier -D"
       );
-      writeFile(`${PATH}\\.eslintric.json`, configJson["eslintConfigAngular"]);
+      executeCommand("npm install eslint-plugin-cypress --save-dev");
+      writeFile(
+        path.join(PATH, "/.eslintrc.json"),
+        configJson["eslintConfigAngular"]
+      );
+      fs.writeFileSync(
+        path.join(PATH, "/.eslintignore"),
+        "package.json\npackage-lock.json\ndist"
+      );
+      const packageJson = readFile(PACKGEJSON_PATH);
+      packageJson["scripts"]["lint"] =
+        "tsc --noEmit && eslint . --ext js,ts,json --quiet --fix";
+      writeFile(PACKGEJSON_PATH, packageJson);
+      writeFile(path.join(PATH, "/.prettierrc.json"), {
+        singleQuote: true,
+        trailingComma: "none",
+        endOfLine: "auto",
+      });
+    } else if (index === 1) {
+      executeCommand("npm install eslint --save-dev");
+      executeCommand(
+        "npm install eslint-config-prettier eslint-plugin-prettier prettier --save-dev"
+      );
+      writeFile(
+        path.join(PATH, "/.eslintrc.json"),
+        configJson["eslintConfigReact"]
+      );
     }
   }
-};
-
-const addEslintForCypress = () => {
-  const eslintConfig = readFile(`${PATH}\\.eslintric.json`);
-  eslintConfig['']
 };
 
 const promptCoverageReact = () => {
@@ -66,12 +87,20 @@ const promptCoverageReact = () => {
     packageJson["eslintConfig"] = configJson["reactEslintConfig"];
 
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-coverage"]}support\\index.js`,
-      `${PATH}cypress\\support\\index.js`
+      path.join(
+        PATH,
+        configJson["filePath"]["cypress-coverage"],
+        "support/index.js"
+      ),
+      path.join(PATH, "cypress/support/index.js")
     );
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-coverage"]}react\\plugins\\index.js`,
-      `${PATH}cypress\\plugins\\index.js`
+      path.join(
+        PATH,
+        configJson["filePath"]["cypress-coverage"],
+        "react/plugins/index.js"
+      ),
+      path.join(PATH, "cypress/plugins/index.js")
     );
     writeFile(PACKGEJSON_PATH, packageJson);
   }
@@ -90,12 +119,21 @@ const promptComponentTestReact = () => {
     writeFile(CYPRESSJSON_PATH, cypressJson);
 
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-coverage"]}react\\componentIndex.js`,
-      `${PATH}cypress\\plugins\\index.js`
+      path.join(
+        PATH,
+        configJson["filePath"]["cypress-coverage"],
+        "react/componentIndex.js"
+      ),
+      path.join(PATH, "cypress/plugins/index.js")
     );
+
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-coverage"]}react\\App.spec.js`,
-      `${PATH}src\\App.spec.js`
+      path.join(
+        PATH,
+        configJson["filePath"]["cypress-coverage"],
+        "react/App.spec.js"
+      ),
+      path.join(PATH, "src/App.spec.js")
     );
   }
 };
@@ -138,7 +176,7 @@ const promptUninstallProtractor = () => {
   );
   if (reply.toLowerCase() === "y") {
     executeCommand("npm uninstall protractor");
-    deleteFile(`${PATH}protractor.conf.js`);
+    deleteFile(path.join(PATH, "protractor.conf.js"));
   }
 };
 
@@ -163,20 +201,36 @@ const promptInstallCypressCoverage = () => {
     writeFile(ANGULARJSON_PATH, angularJson);
 
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-installer"]}src\\coverage.webpack.js`,
-      `${PATH}cypress\\coverage.webpack.js`
+      path.join(
+        PATH,
+        configJson["filePath"]["cypress-installer"],
+        "src/coverage.webpack.js"
+      ),
+      path.join(PATH, "cypress/coverage.webpack.js")
     );
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-installer"]}src\\cy-ts-preprocessor.js`,
-      `${PATH}cypress\\plugins\\cy-ts-preprocessor.js`
+      path.join(
+        PATH,
+        configJson["filePath"]["cypress-installer"],
+        "src/cy-ts-preprocessor.js"
+      ),
+      path.join(PATH, "cypress/plugins/cy-ts-preprocessor.js")
     );
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-coverage"]}plugins\\index.js`,
-      `${PATH}cypress\\plugins\\index.js`
+      path.join(
+        PATH,
+        configJson["filePath"]["cypress-coverage"],
+        "plugins/index.js"
+      ),
+      path.join(PATH, "cypress/plugins/index.js")
     );
     copyDirectory(
-      `${PATH}${configJson["filePath"]["cypress-coverage"]}support\\index.js`,
-      `${PATH}cypress\\support\\index.js`
+      path.join(
+        PATH,
+        configJson["filePath"]["cypress-coverage"],
+        "support/index.js"
+      ),
+      path.join(PATH, "cypress/support/index.js")
     );
   }
 };
@@ -187,5 +241,6 @@ exports.promptUninstallKarma = promptUninstallKarma;
 exports.promptCoverageReact = promptCoverageReact;
 exports.promptComponentTestReact = promptComponentTestReact;
 exports.promptUninstallProtractor = promptUninstallProtractor;
+exports.promptInstallEslint = promptInstallEslint;
 exports.ANGULARJSON_PATH = ANGULARJSON_PATH;
 exports.PACKGEJSON_PATH = PACKGEJSON_PATH;

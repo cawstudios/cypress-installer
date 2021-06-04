@@ -7,6 +7,7 @@ const {
   promptCoverageReact,
   promptComponentTestReact,
   promptUninstallProtractor,
+  promptInstallEslint,
 } = require("./prompt");
 
 const {
@@ -50,6 +51,7 @@ try {
       promptCoverageReact();
       promptComponentTestReact();
     } else process.exit(0);
+    promptInstallEslint();
   } else process.exit(0);
 } catch (error) {
   console.log(error);
