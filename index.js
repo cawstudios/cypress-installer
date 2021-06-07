@@ -1,30 +1,23 @@
-const { execSync } = require("child_process");
 const readlineSync = require("readline-sync");
 const {
-  promptInstallConcurrently,
-  promptInstallCypressCoverage,
+  promptInstallCoverageAngular,
   promptUninstallKarma,
-  promptCoverageReact,
-  promptComponentTestReact,
   promptUninstallProtractor,
+  promptInstallConcurrently,
+  promptInstallCoverageReact,
+  promptComponentTestReact,
   promptInstallCoverageVue,
-} = require("./prompt");
+} = require("./src/prompt");
+
+const { executeCommand } = require("./src/utility.js");
 
 const {
   addCypressScripts,
   configCypressDirectory,
-} = require("./cypressConfig.js");
-const config = require("./config.json");
+} = require("./src/cypressConfig.js");
+const config = require("./src/config.json");
 
 const FRAMEWORKS = ["Angular", "React", "Vue"];
-const executeCommand = (command) => {
-  try {
-    execSync(command, { stdio: "inherit" });
-  } catch (error) {
-    console.log(error.stderr);
-    process.exit(0);
-  }
-};
 
 try {
   const reply = readlineSync.question(
@@ -42,13 +35,13 @@ try {
         promptUninstallKarma();
         promptUninstallProtractor();
         promptInstallConcurrently();
-        promptInstallCypressCoverage();
+        promptInstallCoverageAngular();
       } else process.exit(0);
     } else if (index === 1) {
       configCypressDirectory("React");
       addCypressScripts();
       promptInstallConcurrently("React");
-      promptCoverageReact();
+      promptInstallCoverageReact();
       promptComponentTestReact();
     } else if (index === 2) {
       configCypressDirectory("Vue");
