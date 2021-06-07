@@ -24,11 +24,13 @@ const configCypressDirectory = (framework) => {
   createDirectory(path.join(PATH, configJson["filePath"]["cypress/videos"]));
 
   if (framework === "React") cypressConfig["baseUrl"] = "http://localhost:3000";
+  if (framework === "Vue") cypressConfig["baseUrl"] = "http://localhost:8080";
   if (framework === "Angular")
-    writeFile(
-      path.join(PATH, "/cypress/tsconfig.json"),
-      configJson["tsconfig"]
-    );
+    if (framework === "Angular")
+      writeFile(
+        path.join(PATH, "/cypress/tsconfig.json"),
+        configJson["tsconfig"]
+      );
 
   writeFile(path.join(PATH, "/cypress.json"), cypressConfig);
 };

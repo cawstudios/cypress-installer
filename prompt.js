@@ -155,7 +155,7 @@ const promptUninstallKarma = () => {
   configCypressDirectory("Angular");
 };
 
-const promptInstallConcurrently = () => {
+const promptInstallConcurrently = (framework) => {
   const concurrentlyReply = readlineSync.question(
     "would you like to install concurrently into your project(y/N):"
   );
@@ -165,6 +165,10 @@ const promptInstallConcurrently = () => {
     executeCommand(configJson["commands"]["installConcurrently"]);
     packageJson["scripts"]["cypress"] =
       'concurrently "ng serve" "cypress open"';
+    if (framework === "React") {
+      packageJson["scripts"]["cypress"] =
+        'concurrently "npm start" "cypress open"';
+    }
     writeFile(PACKGEJSON_PATH, packageJson);
     addCypressScripts();
   }
@@ -222,7 +226,7 @@ const promptInstallCypressCoverage = () => {
         configJson["filePath"]["cypress-coverage"],
         "plugins/index.js"
       ),
-      path.join(PATH, "cypress/plugins/index.js")
+      path.join(PATH, "cypress/plugins/index.ts")
     );
     copyDirectory(
       path.join(
@@ -230,7 +234,29 @@ const promptInstallCypressCoverage = () => {
         configJson["filePath"]["cypress-coverage"],
         "support/index.js"
       ),
-      path.join(PATH, "cypress/support/index.js")
+      path.join(PATH, "cypress/support/index.ts")
+    );
+  }
+};
+
+const promptInstallCoverageVue = () => {
+  const reply = readlineSync.question(
+    "Want to install cypress coverage into your project(y/N):"
+  );
+
+  if (reply === "y") {
+    // executeCommand("npm i -D coveralls");
+    executeCommand("npm i -D babel-plugin-istanbul");
+    executeCommand(
+      "npm i -D @cypress/code-coverage  istanbul-lib-coverage nyc "
+    );
+    copyDirectory(
+      path.join(PATH, "cypress-coverage/vue/babel.config.js"),
+      path.join(PATH, "babel.config.js")
+    );
+    copyDirectory(
+      path.join(PATH, "cypress-coverage/vue/Hello.spec.js"),
+      path.join(PATH, "cypress/integration/examples/Hello.spec.js")
     );
   }
 };
@@ -242,5 +268,6 @@ exports.promptCoverageReact = promptCoverageReact;
 exports.promptComponentTestReact = promptComponentTestReact;
 exports.promptUninstallProtractor = promptUninstallProtractor;
 exports.promptInstallEslint = promptInstallEslint;
+exports.promptInstallCoverageVue = promptInstallCoverageVue;
 exports.ANGULARJSON_PATH = ANGULARJSON_PATH;
 exports.PACKGEJSON_PATH = PACKGEJSON_PATH;

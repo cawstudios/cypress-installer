@@ -7,7 +7,7 @@ const {
   promptCoverageReact,
   promptComponentTestReact,
   promptUninstallProtractor,
-  promptInstallEslint,
+  promptInstallCoverageVue,
 } = require("./prompt");
 
 const {
@@ -16,8 +16,7 @@ const {
 } = require("./cypressConfig.js");
 const config = require("./config.json");
 
-const FRAMEWORKS = ["Angular", "React"];
-
+const FRAMEWORKS = ["Angular", "React", "Vue"];
 const executeCommand = (command) => {
   try {
     execSync(command, { stdio: "inherit" });
@@ -48,10 +47,14 @@ try {
     } else if (index === 1) {
       configCypressDirectory("React");
       addCypressScripts();
+      promptInstallConcurrently("React");
       promptCoverageReact();
       promptComponentTestReact();
+    } else if (index === 2) {
+      configCypressDirectory("Vue");
+      addCypressScripts();
+      promptInstallCoverageVue();
     } else process.exit(0);
-    promptInstallEslint();
   } else process.exit(0);
 } catch (error) {
   console.log(error);
