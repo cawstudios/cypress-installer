@@ -6,10 +6,7 @@ const {
   writeFile,
   getMainProjectPath,
 } = require("./fileOperations");
-const {
-  addCypressScripts,
-  configCypressDirectory,
-} = require("./cypressConfig.js");
+
 const { executeCommand, normalizePath } = require("./utility.js");
 const PATH = getMainProjectPath();
 
@@ -74,20 +71,22 @@ const promptInstallCoverageAngular = () => {
 };
 
 const promptUninstallKarma = () => {
-  const angularJson = readFile(ANGULARJSON_PATH);
-  const packageJson = readFile(PACKGEJSON_PATH);
+  const replyKarma = readlineSync.question(
+    "Do you want to uninstall karma(Y/n):"
+  );
+  if (replyKarma.toLocaleLowerCase() === "y") {
+    const angularJson = readFile(ANGULARJSON_PATH);
+    const packageJson = readFile(PACKGEJSON_PATH);
 
-  //Uninstall karma
-  executeCommand(configJson["commands"]["uninstallKarma"]);
-  deleteFile(`${PATH}${configJson["filePath"]["karmaConf"]}`);
-  deleteFile(`${PATH}${configJson["filePath"]["test.ts"]}`);
+    //Uninstall karma
+    executeCommand(configJson["commands"]["uninstallKarma"]);
+    deleteFile(`${PATH}${configJson["filePath"]["karmaConf"]}`);
+    deleteFile(`${PATH}${configJson["filePath"]["test.ts"]}`);
 
-  //remove test config in angular Json
-  delete angularJson["projects"][packageJson["name"]]["architect"]["test"];
-  writeFile(ANGULARJSON_PATH, angularJson);
-
-  //create cypress directory
-  configCypressDirectory("Angular");
+    //remove test config in angular Json
+    delete angularJson["projects"][packageJson["name"]]["architect"]["test"];
+    writeFile(ANGULARJSON_PATH, angularJson);
+  }
 };
 
 const promptUninstallProtractor = () => {
@@ -106,8 +105,8 @@ const promptInstallConcurrently = (framework) => {
   );
 
   if (concurrentlyReply.toLocaleLowerCase() === "y") {
-    const packageJson = readFile(PACKGEJSON_PATH);
     executeCommand(configJson["commands"]["installConcurrently"]);
+    const packageJson = readFile(PACKGEJSON_PATH);
     packageJson["scripts"]["cypress"] =
       'concurrently "ng serve" "cypress open"';
     if (framework === "React") {
@@ -115,7 +114,6 @@ const promptInstallConcurrently = (framework) => {
         'concurrently "npm start" "cypress open"';
     }
     writeFile(PACKGEJSON_PATH, packageJson);
-    addCypressScripts();
   }
 };
 
@@ -130,6 +128,8 @@ const promptInstallCoverageReact = () => {
     executeCommand("npm i @cypress/code-coverage nyc istanbul-lib-coverage -D");
     const packageJson = readFile(PACKGEJSON_PATH);
     packageJson["scripts"] = configJson["reactScripts"];
+    packageJson["scripts"]["cypress"] =
+      'concurrently "npm start" "cypress open"';
     packageJson["eslintConfig"] = configJson["reactEslintConfig"];
 
     copyDirectory(
@@ -227,6 +227,52 @@ const promptInstallCoverageVue = () => {
   }
 };
 
+const testCypressInstallation = (framework) => {
+  if (framework === "Angular") {
+    copyDirectory(
+      normalizePath(
+        PATH,
+        configJson["filePath"]["cypress-installer"],
+        "test/angular.test.js"
+      ),
+      normalizePath(PATH, "cypress-installer.test.js")
+    );
+  }
+  if (framework === "React") {
+    copyDirectory(
+      normalizePath(
+        PATH,
+        configJson["filePath"]["cypress-installer"],
+        "test/react.test.js"
+      ),
+      normalizePath(PATH, "cypress-installer.test.js")
+    );
+  }
+  if (framework === "Vue") {
+    copyDirectory(
+      normalizePath(
+        PATH,
+        configJson["filePath"]["cypress-installer"],
+        "test/vue.test.js"
+      ),
+      normalizePath(PATH, "cypress-installer.test.js")
+    );
+  }
+  executeCommand("npm i -D jest");
+
+  let packageJson = readFile(PACKGEJSON_PATH);
+  packageJson["scripts"]["test:cyi"] = "jest cypress-installer.test.js";
+  writeFile(PACKGEJSON_PATH, packageJson);
+
+  executeCommand("npm run test:cyi");
+  executeCommand("npm un -D jest");
+  deleteFile(normalizePath(PATH, "cypress-installer.test.js"));
+
+  packageJson = readFile(PACKGEJSON_PATH);
+  delete packageJson["scripts"]["test:cyi"];
+  writeFile(PACKGEJSON_PATH, packageJson);
+};
+
 exports.promptInstallCoverageAngular = promptInstallCoverageAngular;
 exports.promptUninstallKarma = promptUninstallKarma;
 exports.promptUninstallProtractor = promptUninstallProtractor;
@@ -236,5 +282,8 @@ exports.promptInstallCoverageReact = promptInstallCoverageReact;
 exports.promptComponentTestReact = promptComponentTestReact;
 
 exports.promptInstallCoverageVue = promptInstallCoverageVue;
+
+exports.testCypressInstallation = testCypressInstallation;
 exports.ANGULARJSON_PATH = ANGULARJSON_PATH;
 exports.PACKGEJSON_PATH = PACKGEJSON_PATH;
+exports.CYPRESSJSON_PATH = CYPRESSJSON_PATH;

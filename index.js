@@ -7,6 +7,7 @@ const {
   promptInstallCoverageReact,
   promptComponentTestReact,
   promptInstallCoverageVue,
+  testCypressInstallation,
 } = require("./src/prompt");
 
 const { executeCommand } = require("./src/utility.js");
@@ -28,25 +29,25 @@ try {
     executeCommand(config["commands"]["installCypress"]);
     const index = readlineSync.keyInSelect(FRAMEWORKS, "Which framework?");
     if (index === 0) {
-      const replyKarma = readlineSync.question(
-        "Do you want to uninstall karma(Y/n):"
-      );
-      if (replyKarma.toLocaleLowerCase() === "y") {
-        promptUninstallKarma();
-        promptUninstallProtractor();
-        promptInstallConcurrently();
-        promptInstallCoverageAngular();
-      } else process.exit(0);
+      configCypressDirectory("Angular");
+      addCypressScripts();
+      promptUninstallKarma();
+      promptUninstallProtractor();
+      promptInstallConcurrently();
+      promptInstallCoverageAngular();
+      testCypressInstallation("Angular");
     } else if (index === 1) {
       configCypressDirectory("React");
       addCypressScripts();
       promptInstallConcurrently("React");
       promptInstallCoverageReact();
       promptComponentTestReact();
+      testCypressInstallation("React");
     } else if (index === 2) {
       configCypressDirectory("Vue");
       addCypressScripts();
       promptInstallCoverageVue();
+      testCypressInstallation("Vue");
     } else process.exit(0);
   } else process.exit(0);
 } catch (error) {
