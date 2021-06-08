@@ -273,6 +273,12 @@ const testCypressInstallation = (framework) => {
   writeFile(PACKGEJSON_PATH, packageJson);
 };
 
+const promptInstallMochaReport = () => {
+  executeCommand(
+    "npm i -D mocha@7.2.0 mochaawesome@6.1.1 mochaawesome-merge@4.1.0 mochaawesome-report-generator@5.1.0"
+  );
+};
+
 exports.promptInstallCoverageAngular = promptInstallCoverageAngular;
 exports.promptUninstallKarma = promptUninstallKarma;
 exports.promptUninstallProtractor = promptUninstallProtractor;
