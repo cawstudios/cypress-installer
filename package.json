@@ -1,7 +1,7 @@
 {
   "name": "cypress-installer",
   "version": "1.2.2",
-  "description": "A package that installs cypress into your Angular and react project",
+  "description": "A package that installs cypress into your Angular, React  and Vue projects",
   "main": "index.js",
   "scripts": {
     "test": "jest index.test.js",
@@ -9,7 +9,8 @@
     "test:react": "jest react.test.js",
     "test:vue": "jest vue.test.js",
     "cy:open": "cypress open",
-    "cy:run": "cypress run"
+    "cy:run": "cypress run",
+    "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
@@ -19,5 +20,21 @@
     "prompt": "^1.1.0",
     "readline-sync": "^1.4.10"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "eslint": "^7.28.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "husky": "^6.0.0",
+    "lint-staged": "^11.0.0",
+    "prettier": "^2.3.1",
+    "pretty-quick": "^3.1.0"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && pretty-quick --staged"
+    }
+  }
 }
