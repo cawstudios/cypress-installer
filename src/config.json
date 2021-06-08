@@ -1,7 +1,6 @@
 {
   "cypressConfig": {
     "$schema": "https://on.cypress.io/cypress.schema.json",
-    "chromeWebSecurity": false,
     "fixturesFolder": "cypress/fixtures",
     "integrationFolder": "cypress/integration",
     "pluginsFile": "cypress/plugins/index.js",
@@ -42,28 +41,26 @@
     "cypress/tsconfig": "cypress/tsconfig.json"
   },
   "reactScripts": {
-    "start": "npm-run-all start-dev start-mockapi",
-    "start-dev": "react-scripts -r @cypress/instrument-cra start",
-    "start-mockapi": "json-server ...",
+    "start-intr": "react-scripts -r @cypress/instrument-cra start",
     "cy:open": "cypress open",
     "cy:run": "cypress run",
     "ct:open": "cypress open-ct",
-    "ct:run": "cypress run-ct",
-    "dev": "start-test 3000 cypress",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "ct:run": "cypress run-ct"
   },
   "reactEslintConfig": {
     "extends": ["react-app", "react-app/jest", "plugin:cypress/recommended"]
   },
   "tsconfig": {
     "compilerOptions": {
-      "strict": true,
-      "baseUrl": "../node_modules",
-      "target": "es5",
-      "lib": ["es5", "dom"],
-      "types": ["cypress"]
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": ["es5","es2016", "dom"],
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "pretty": true,
+    "types": ["node","cypress"],
+    "typeRoots": ["./node_modules/@types"]
     },
     "include": ["**/*.ts"]
   }
