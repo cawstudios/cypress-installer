@@ -28,27 +28,33 @@ try {
   if (reply === "y") {
     executeCommand(config["commands"]["installCypress"]);
     const index = readlineSync.keyInSelect(FRAMEWORKS, "Which framework?");
-    if (index === 0) {
-      configCypressDirectory("Angular");
-      addCypressScripts();
-      promptUninstallKarma();
-      promptUninstallProtractor();
-      promptInstallConcurrently();
-      promptInstallCoverageAngular();
-      testCypressInstallation("Angular");
-    } else if (index === 1) {
-      configCypressDirectory("React");
-      addCypressScripts();
-      promptInstallConcurrently("React");
-      promptInstallCoverageReact();
-      promptComponentTestReact();
-      testCypressInstallation("React");
-    } else if (index === 2) {
-      configCypressDirectory("Vue");
-      addCypressScripts();
-      promptInstallCoverageVue();
-      testCypressInstallation("Vue");
-    } else process.exit(0);
+    switch (index) {
+      case 0:
+        configCypressDirectory("Angular");
+        addCypressScripts();
+        promptUninstallKarma();
+        promptUninstallProtractor();
+        promptInstallConcurrently();
+        promptInstallCoverageAngular();
+        testCypressInstallation("Angular");
+        break;
+      case 1:
+        configCypressDirectory("React");
+        addCypressScripts();
+        promptInstallConcurrently("React");
+        promptInstallCoverageReact();
+        promptComponentTestReact();
+        testCypressInstallation("React");
+        break;
+      case 2:
+        configCypressDirectory("Vue");
+        addCypressScripts();
+        promptInstallCoverageVue();
+        testCypressInstallation("Vue");
+        break;
+      default:
+        process.exit(0);
+    }
   } else process.exit(0);
 } catch (error) {
   console.log(error);
