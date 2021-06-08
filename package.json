@@ -30,7 +30,7 @@
     "pretty-quick": "^3.1.0"
   },
   "lint-staged": {
-    "*.js": "eslint --cache --fix && prettier --rule"
+    "*.js": "eslint --cache --fix"
   },
   "husky": {
     "hooks": {
