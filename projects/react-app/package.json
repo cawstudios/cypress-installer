@@ -1,0 +1,70 @@
+{
+  "name": "react-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.13.0",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "start": "npm-run-all start-intr",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cypress": "concurrently \"npm start\" \"cypress open\"",
+    "start-intr": "react-scripts -r @cypress/instrument-cra start",
+    "dev": "start-test 3000 cypress",
+    "ct:open": "cypress open-ct",
+    "ct:run": "cypress run-ct",
+    "remove-reports": "npx rimraf ./mochawesome-report && npx rimraf ./cypress-tests-report.json && npx rimraf ./cypress/screenshots && npx rimraf ./cypress/videos && npx rimraf test-reports",
+    "merge:reports": "mochawesome-merge mochawesome-report/*.json > cypress-tests-report.json",
+    "create:html:report": "marge --reportDir test-reports  --reportTitle Cypress-Tests --reportPageTitle Toptal-Cypress-Tests --charts true --reportFilename index cypress-tests-report.json",
+    "generate:html:report": "npm run merge:reports && npm run create:html:report",
+    "test:cyi": "jest cypress-installer.test.js"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest",
+      "plugin:cypress/recommended"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@cypress/code-coverage": "^3.9.6",
+    "@cypress/instrument-cra": "^1.4.0",
+    "@cypress/react": "^5.9.1",
+    "@cypress/webpack-dev-server": "^1.3.1",
+    "concurrently": "^6.2.0",
+    "cypress": "^7.5.0",
+    "cypress-installer": "^1.2.8",
+    "eslint-plugin-cypress": "^2.11.3",
+    "istanbul-lib-coverage": "^3.0.0",
+    "jest": "^27.0.4",
+    "mocha": "^7.2.0",
+    "mochawesome": "^6.1.1",
+    "mochawesome-merge": "^4.1.0",
+    "mochawesome-report-generator": "^5.1.0",
+    "npm-run-all": "^4.1.5",
+    "nyc": "^15.1.0",
+    "typescript": "^4.2.3"
+  }
+}

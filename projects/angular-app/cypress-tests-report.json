@@ -1,0 +1,104 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2021-06-10T04:58:10.618Z",
+    "end": "2021-06-10T04:58:10.618Z",
+    "duration": 2384,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "78b87f4c-92f9-4c8d-8187-78b8bedf7d11",
+      "title": "",
+      "fullFile": "cypress/integration/examples/Hello.spec.js",
+      "file": "cypress/integration/examples/Hello.spec.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "1ab0d7bc-362d-4e86-806c-e0c510dddfa0",
+          "title": "Initial test suite",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "should get code coverage",
+              "fullTitle": "Initial test suite should get code coverage",
+              "timedOut": null,
+              "duration": 2384,
+              "state": "passed",
+              "speed": "slow",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.visit(\"http://localhost:4200\");",
+              "err": {},
+              "uuid": "af5c7223-d0a4-4c57-8adc-7375c89c40eb",
+              "parentUUID": "1ab0d7bc-362d-4e86-806c-e0c510dddfa0",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "af5c7223-d0a4-4c57-8adc-7375c89c40eb"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 2384,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.0.1"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "6.1.1"
+    },
+    "marge": {
+      "options": {
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "5.1.0"
+    }
+  }
+}

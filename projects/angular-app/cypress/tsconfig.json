@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": [
+      "es5",
+      "es2016",
+      "dom"
+    ],
+    "outDir": "./dist",
+    "skipLibCheck": true,
+    "pretty": true,
+    "types": [
+      "node",
+      "cypress"
+    ],
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
+  },
+  "include": [
+    "**/*.ts"
+  ]
+}
