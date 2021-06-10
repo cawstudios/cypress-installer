@@ -1,22 +1,16 @@
 {
   "name": "cypress-installer",
-  "version": "1.2.2",
+  "version": "1.2.8",
   "description": "A package that installs cypress into your Angular, React  and Vue projects",
   "main": "index.js",
+  "bin": "./index.js",
   "scripts": {
-    "test": "jest index.test.js",
-    "test:angular": "jest angular.test.js",
-    "test:react": "jest react.test.js",
-    "test:vue": "jest vue.test.js",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run",
     "prepare": "husky install"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "fs-extra": "^10.0.0",
-    "jest": "^27.0.4",
     "prompt": "^1.1.0",
     "readline-sync": "^1.4.10"
   },

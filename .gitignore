@@ -1,2 +1,5 @@
 node_modules/
 .eslintcache
+projects/angular-app/node_modules
+projects/react-app/node_modules
+projects/vue-app/node_modules

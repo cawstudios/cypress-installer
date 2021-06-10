@@ -3,8 +3,8 @@
     "$schema": "https://on.cypress.io/cypress.schema.json",
     "fixturesFolder": "cypress/fixtures",
     "integrationFolder": "cypress/integration",
-    "pluginsFile": "cypress/plugins/index.js",
-    "supportFile": "cypress/support/index.js",
+    "pluginsFile": "cypress/plugins/index.ts",
+    "supportFile": "cypress/support/index.ts",
     "screenshotsFolder": "cypress/screenshots",
     "videosFolder": "cypress/videos",
     "baseUrl": "http://localhost:4200"
@@ -28,7 +28,22 @@
     "installConcurrently": "npm install concurrently --save-dev",
     "installNgx-build-plus": "npm i -D ngx-build-plus",
     "installIstanbul": "npm i -D istanbul-instrumenter-loader",
-    "installCoverage": "npm install -D @cypress/code-coverage @cypress/webpack-preprocessor ts-loader"
+    "installCoverage": "npm install -D @cypress/code-coverage @cypress/webpack-preprocessor ts-loader",
+    "installMochaReport":"npm i -D mocha@7.2.0 mochawesome@6.1.1 mochawesome-merge@4.1.0 mochawesome-report-generator@5.1.0",
+    "installBabelIstanbul":"npm i -D babel-plugin-istanbul",
+    "installCodeCoverageVue":"npm i -D @cypress/code-coverage  istanbul-lib-coverage nyc ",
+    "installComponentTestReact":"npm i @cypress/react @cypress/webpack-dev-server -D",
+    "installCypressIntrumentation":"npm i @cypress/instrument-cra -D",
+    "installEslintCypress":"npm i eslint-plugin-cypress  -D",
+    "installNpmRunAll":"npm i npm-run-all -D",
+    "installCodeCoverageReact":"npm i @cypress/code-coverage nyc istanbul-lib-coverage -D",
+    "installTypescript":"npm i -D typescript@4.2.3"
+  },
+  "mochaReportScripts":{
+    "remove-reports": "npx rimraf ./mochawesome-report && npx rimraf ./cypress-tests-report.json && npx rimraf ./cypress/screenshots && npx rimraf ./cypress/videos && npx rimraf test-reports",
+    "merge:reports": "mochawesome-merge mochawesome-report/*.json > cypress-tests-report.json",
+    "create:html:report": "marge --reportDir test-reports  --reportTitle Cypress-Tests --reportPageTitle Toptal-Cypress-Tests --charts true --reportFilename index cypress-tests-report.json",
+    "generate:html:report": "npm run merge:reports && npm run create:html:report"
   },
   "filePath": {
     "karmaConf": "karma.conf.js",
@@ -41,11 +56,9 @@
     "cypress/tsconfig": "cypress/tsconfig.json"
   },
   "reactScripts": {
+    "start": "npm-run-all start-intr",
     "start-intr": "react-scripts -r @cypress/instrument-cra start",
-    "cy:open": "cypress open",
-    "cy:run": "cypress run",
-    "ct:open": "cypress open-ct",
-    "ct:run": "cypress run-ct"
+    "dev": "start-test 3000 cypress"
   },
   "reactEslintConfig": {
     "extends": ["react-app", "react-app/jest", "plugin:cypress/recommended"]
@@ -63,5 +76,13 @@
     "typeRoots": ["./node_modules/@types"]
     },
     "include": ["**/*.ts"]
+  },
+  "question":{
+    "cypressPrompt":"would you like to install cypress into your project(y/N):",
+    "angularProtractorPrompt":"Do you want to uninstall protractor(y/N):",
+    "promptConcurrently":"would you like to install concurrently into your project(y/N):",
+    "promptComponentTestReact":"would you like to install component testing for your react project(y/N):",
+    "promptCoverage":"would you like to install cypress coverage into your project(y/N):",
+    "promptMochaReport":"would you like to install mocha report into your project(y/N):"
   }
 }
