@@ -25,10 +25,10 @@ npx cypress-installer
    6. Prompts to install **Mocha Report**.
 
 ## Scripts
-1. Opens Cypress test runner ```npm run cy-open```
-2. Executes tests in headless mode ```npm run cy-run```
-3. Executes component tests in headless mode ```npm run ct-run```
-4. Opens Cypress test runner for Component test ```npm run ct-open```
+1. Opens Cypress test runner ```npm run cy:open```
+2. Executes tests in headless mode ```npm run cy:run```
+3. Executes component tests in headless mode ```npm run ct:run```
+4. Opens Cypress test runner for Component test ```npm run ct:open```
 5. To generate a HTML report after you run the test. Run ``` npm run generate:html:report ```
 5. To remove mocha HTML report . Run ``` npm run remove-reports ```
 
