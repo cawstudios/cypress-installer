@@ -1,19 +1,19 @@
-#  Cypress-installer
+#  @caw-studios/cypressinstaller
 
-Cypress-installer is a command line tool that installs Cypress and other dependencies for your front-end framework (Angular, React and vue js 3).
+@caw-studios/cypressinstaller is a command line tool that installs Cypress and other dependencies for your front-end framework (Angular, React and vue js 3).
 
 ## Installation
 
-Use the package manager [npm](https://docs.npmjs.com/cli/v7/commands/npm-install) to install cypress-installer.
+Use the package manager [npm](https://docs.npmjs.com/cli/v7/commands/npm-install) to install @caw-studios/cypressinstaller.
 
 ```bash
-npm i -D cypress-installer
+npm i -D @caw-studios/cypressinstaller
 ```
 
 ## Usage
 
 ```bash
-npx cypress-installer
+npx @caw-studios/cypressinstaller
 ```
 ### This command line tool will:
 
