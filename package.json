@@ -1,9 +1,13 @@
 {
   "name": "@caw-studios/cypressinstaller",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A package that installs cypress into your Angular, React  and Vue projects",
   "main": "index.js",
   "bin": "./index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cawstudios/cypress-installer.git"
+  },
   "scripts": {
     "prepare": "husky install"
   },

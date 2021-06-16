@@ -48,8 +48,8 @@
   "filePath": {
     "karmaConf": "karma.conf.js",
     "test.ts": "src/test.ts",
-    "cypress-coverage": "node_modules/cypress-installer/cypress-coverage/",
-    "cypress-installer": "node_modules/cypress-installer/",
+    "cypress-coverage": "node_modules/@caw-studios/cypressinstaller/cypress-coverage/",
+    "cypress-installer": "node_modules/@caw-studios/cypressinstaller/",
     "cypress/test": "/cypress/tests/e2e",
     "cypress/screenshots": "/cypress/screenshots",
     "cypress/videos": "/cypress/videos",
