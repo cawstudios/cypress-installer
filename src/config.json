@@ -13,7 +13,6 @@
   "serve": {
     "builder": "ngx-build-plus:dev-server",
     "options": {
-      "browserTarget": "cypress-angular-coverage-example:build",
       "extraWebpackConfig": "./cypress/coverage.webpack.js"
     }
   },

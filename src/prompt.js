@@ -33,6 +33,9 @@ const promptInstallCoverageAngular = () => {
 		angularJson['projects'][packageJson['name']]['architect']['serve'][
 			'options'
 		] = configJson['serve']['options'];
+		angularJson['projects'][packageJson['name']]['architect']['serve'][
+			'options'
+		]['browserTarget'] = `${packageJson['name']}:build`;
 		writeFile(ANGULARJSON_PATH, angularJson);
 
 		copyDirectory(
@@ -67,25 +70,6 @@ const promptInstallCoverageAngular = () => {
 			),
 			normalizePath(PATH, 'cypress/support/index.ts')
 		);
-	}
-};
-
-const promptUninstallKarma = () => {
-	const replyKarma = readlineSync.question(
-		'Do you want to uninstall karma(y/N):'
-	);
-	if (replyKarma.toLocaleLowerCase() === 'y') {
-		const angularJson = readFile(ANGULARJSON_PATH);
-		const packageJson = readFile(PACKGEJSON_PATH);
-
-		//Uninstall karma
-		executeCommand(configJson['commands']['uninstallKarma']);
-		deleteFile(`${PATH}${configJson['filePath']['karmaConf']}`);
-		deleteFile(`${PATH}${configJson['filePath']['test.ts']}`);
-
-		//remove test config in angular Json
-		delete angularJson['projects'][packageJson['name']]['architect']['test'];
-		writeFile(ANGULARJSON_PATH, angularJson);
 	}
 };
 
