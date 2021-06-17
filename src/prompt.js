@@ -58,17 +58,17 @@ const promptInstallCoverageAngular = () => {
 			normalizePath(
 				PATH,
 				configJson['filePath']['cypress-coverage'],
-				'plugins/index.ts'
+				'plugins/index.js'
 			),
-			normalizePath(PATH, 'cypress/plugins/index.ts')
+			normalizePath(PATH, 'cypress/plugins/index.js')
 		);
 		copyDirectory(
 			normalizePath(
 				PATH,
 				configJson['filePath']['cypress-coverage'],
-				'support/index.ts'
+				'support/index.js'
 			),
-			normalizePath(PATH, 'cypress/support/index.ts')
+			normalizePath(PATH, 'cypress/support/index.js')
 		);
 	}
 };
@@ -121,17 +121,17 @@ const promptInstallCoverageReact = () => {
 			normalizePath(
 				PATH,
 				configJson['filePath']['cypress-coverage'],
-				'support/index.ts'
+				'support/index.js'
 			),
-			normalizePath(PATH, 'cypress/support/index.ts')
+			normalizePath(PATH, 'cypress/support/index.js')
 		);
 		copyDirectory(
 			normalizePath(
 				PATH,
 				configJson['filePath']['cypress-coverage'],
-				'react/plugins/index.ts'
+				'react/plugins/index.js'
 			),
-			normalizePath(PATH, 'cypress/plugins/index.ts')
+			normalizePath(PATH, 'cypress/plugins/index.js')
 		);
 		writeFile(PACKGEJSON_PATH, packageJson);
 	}
@@ -158,9 +158,9 @@ const promptComponentTestReact = () => {
 			normalizePath(
 				PATH,
 				configJson['filePath']['cypress-coverage'],
-				'react/componentIndex.ts'
+				'react/componentIndex.js'
 			),
-			normalizePath(PATH, 'cypress/plugins/index.ts')
+			normalizePath(PATH, 'cypress/plugins/index.js')
 		);
 
 		copyDirectory(
@@ -195,17 +195,17 @@ const promptInstallCoverageVue = () => {
 			normalizePath(
 				PATH,
 				configJson['filePath']['cypress-coverage'],
-				'vue/plugins/index.ts'
+				'vue/plugins/index.js'
 			),
-			normalizePath(PATH, 'cypress/plugins/index.ts')
+			normalizePath(PATH, 'cypress/plugins/index.js')
 		);
 		copyDirectory(
 			normalizePath(
 				PATH,
 				configJson['filePath']['cypress-coverage'],
-				'support/index.ts'
+				'support/index.js'
 			),
-			normalizePath(PATH, 'cypress/support/index.ts')
+			normalizePath(PATH, 'cypress/support/index.js')
 		);
 	}
 };
@@ -232,9 +232,9 @@ const promptInstallMochaReport = () => {
 			normalizePath(
 				PATH,
 				configJson['filePath']['cypress-installer'],
-				'mocha-report/index.ts'
+				'mocha-report/index.js'
 			),
-			normalizePath(PATH, 'cypress/support/index.ts')
+			normalizePath(PATH, 'cypress/support/index.js')
 		);
 
 		const cypressJson = readFile(CYPRESSJSON_PATH);

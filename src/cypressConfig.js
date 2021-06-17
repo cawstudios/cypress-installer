@@ -50,11 +50,6 @@ const configCypressDirectory = (framework) => {
 		);
 	}
 
-	writeFile(
-		normalizePath(PATH, '/cypress/tsconfig.json'),
-		configJson['tsconfig']
-	);
-
 	writeFile(normalizePath(PATH, '/cypress.json'), cypressConfig);
 };
 
