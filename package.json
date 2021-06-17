@@ -1,6 +1,6 @@
 {
   "name": "@caw-studios/cypressinstaller",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "A package that installs cypress into your Angular, React  and Vue projects",
   "main": "index.js",
   "bin": "./index.js",
