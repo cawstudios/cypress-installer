@@ -37,7 +37,6 @@ try {
 				promptInstallMochaReport();
 				break;
 			case 1:
-				executeCommand(config['commands']['installTypescript']);
 				configCypressDirectory('React');
 				addCypressScripts();
 				promptInstallConcurrently('React');
@@ -46,7 +45,6 @@ try {
 				promptInstallMochaReport();
 				break;
 			case 2:
-				executeCommand(config['commands']['installTypescript']);
 				configCypressDirectory('Vue');
 				addCypressScripts();
 				promptInstallCoverageVue();
